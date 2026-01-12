@@ -1,0 +1,107 @@
+---
+// src/pages/projects/index.astro
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/content';
+
+// 将项目按类别分类
+const softwareProjects = projects.filter(p => p.category === 'Software');
+const gameProjects = projects.filter(p => p.category === 'Game');
+const archProjects = projects.filter(p => p.category === 'Architecture');
+
+const columns = [
+  { title: 'Software', data: softwareProjects },
+  { title: 'Games', data: gameProjects },
+  { title: 'Architecture', data: archProjects }
+];
+---
+
+<Layout title="Projects">
+  <div class="projects-grid fade-in">
+    {columns.map((col) => (
+      <div class="column">
+        <h2 class="col-title">{col.title}</h2>
+        <div class="col-content">
+          {col.data.map((project) => (
+            <a href={`/projects/${project.id}`} class="project-card">
+              <div class="image-wrapper">
+                <img src={project.image} alt={project.title} onerror="this.style.display='none'" />
+                <div class="fallback-box"></div>
+              </div>
+              <div class="project-info">
+                <h3>{project.title}</h3>
+                <p>{project.year}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+</Layout>
+
+<style>
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr; /* 强制三栏 */
+    gap: 4rem; /* 栏间距 */
+    margin-top: 2rem;
+  }
+
+  .col-title {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+
+  .project-card {
+    display: block;
+    margin-bottom: 3rem;
+  }
+
+  .image-wrapper {
+    width: 100%;
+    aspect-ratio: 4/3; /* 图片比例 */
+    background-color: #1a1a1a;
+    overflow: hidden;
+    margin-bottom: 0.8rem;
+    position: relative;
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .project-card:hover .image-wrapper img {
+    transform: scale(1.05); /* 悬停微放大效果 */
+  }
+
+  .project-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+  }
+
+  .project-info h3 {
+    color: var(--text-main);
+    font-weight: 500;
+  }
+  
+  .project-info p {
+    color: var(--text-secondary);
+  }
+
+  /* 移动端响应式：变成单栏 */
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+  }
+</style>

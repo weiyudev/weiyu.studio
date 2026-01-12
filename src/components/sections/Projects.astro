@@ -1,0 +1,137 @@
+---
+import { projects } from '../../data/content';
+---
+
+<section id="projects">
+  <h2 class="section-title">Selected Projects</h2>
+  
+  <div class="projects-grid">
+    {projects.slice(0, 3).map(project => (
+      <a href={`/projects/${project.id}`} class="project-card">
+        {/* 1. 图片层：假设数据中有 image 字段，如果没有请替换为你的图片路径 */}
+        <div class="image-wrapper">
+           <img 
+            src={project.image || "/assets/images/placeholder.jpg"} 
+            
+            alt={project.title} 
+            loading="lazy"
+          />
+        </div>
+        
+        {/* 2. 遮罩层：为了让白字更清晰，加一层淡淡的黑蒙版 */}
+        <div class="overlay"></div>
+
+        {/* 3. 文字层：绝对定位在正中间 */}
+        <h3 class="project-title-center">
+          {project.title}
+        </h3>
+      </a>
+    ))}
+  </div>
+</section>
+
+<style>
+  #projects {
+    padding: 4rem 0;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+    font-family: 'Helvetica', sans-serif;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* --- 网格布局核心 --- */
+  .projects-grid {
+    display: grid;
+    /* 强制一行三个，等宽分布 */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 1.5rem; /* 图片之间的间距 */
+    width: 100%;
+  }
+
+  /* --- 卡片容器 --- */
+  .project-card {
+    position: relative; /* 为内部的绝对定位元素提供参考 */
+    display: block;
+    width: 100%;
+    /* 设定宽高比，这里设为 4:3，你可以改成 16:9 或 1:1 */
+    aspect-ratio: 9 / 16; 
+    overflow: hidden; /* 裁剪图片放大的溢出部分 */
+    border-radius: 8px; /* 可选：圆角 */
+    text-decoration: none;
+  }
+
+  /* --- 图片样式 --- */
+  .image-wrapper {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 保证图片填满且不变形 */
+    display: block;
+  }
+
+  /* --- 遮罩层 (让文字更清晰) --- */
+  .overlay {
+    position: absolute;
+    inset: 0; /* 占满整个卡片 */
+    background: rgba(0, 0, 0, 0.2); /* 20%的黑色遮罩 */
+    transition: background 0.3s ease;
+    z-index: 1;
+  }
+
+  /* --- 中间文字样式 --- */
+  .project-title-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* 完美的绝对居中 */
+    z-index: 2; /* 保证在遮罩之上 */
+    
+    margin: 0;
+    color: #fff; /* 白色文字 */
+    font-family: 'PPEditorialNew', serif; /* 使用你的古典字体 */
+    font-style: italic;
+    font-size: 2rem;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap; /* 防止文字换行 */
+    opacity: 0.9;
+    transition: all 0.4s ease;
+  }
+
+  /* --- 鼠标悬停交互 (Hover Effects) --- */
+  .project-card:hover .image-wrapper {
+    transform: scale(1.05); /* 图片微微放大 */
+  }
+
+  .project-card:hover .overlay {
+    background: rgba(0, 0, 0, 0.4); /* 遮罩变深 */
+  }
+
+  .project-card:hover .project-title-center {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.05); /* 文字也微微放大 */
+  }
+
+  /* --- 移动端适配 --- */
+  @media (max-width: 768px) {
+    .projects-grid {
+      /* 手机上改为一列，或者 repeat(2, 1fr) 两列 */
+      grid-template-columns: 1fr; 
+      gap: 1rem;
+    }
+    
+    .project-card {
+      aspect-ratio: 16 / 9; /* 手机上稍微扁一点 */
+    }
+  }
+</style>

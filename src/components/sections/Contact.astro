@@ -1,0 +1,25 @@
+---
+import Social from '../Social.astro';
+import Footer from '../Footer.astro';
+---
+<section id="contact" style="min-height: 60vh; justify-content: space-between;">
+  <div>
+    <h2 class="section-title">Contact</h2>
+    <div class="contact-content">
+      <p class="big-text">Let's create something together.</p>
+      <a href="mailto:willyudev@gmail.com" class="email-link">willyudev@gmail.com</a>
+
+      <div style="margin-top: 3rem;">
+        <Social />
+      </div>
+    </div>
+  </div>
+  
+  <Footer />
+</section>
+
+<style>
+  .big-text { font-size: 1.5rem; color: var(--text-main); margin-bottom: 1rem; }
+  .email-link { font-size: 1.2rem; color: var(--text-muted); border-bottom: 1px solid transparent; }
+  .email-link:hover { border-color: var(--text-muted); }
+</style>

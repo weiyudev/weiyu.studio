@@ -1,0 +1,191 @@
+---
+import { siteData } from '../../data/content';
+// 提取数据，防止 JS 报错
+const wordList = siteData.description2_list;
+---
+
+<section id="hero">
+  <h1 class="hero-title">
+    Hey
+    <span class="smiley">:)</span>
+    I'm
+    <span class="highlight name-highlight">{siteData.title_name}</span>
+  </h1>
+
+  <p class="hero-description">
+    {siteData.description1}
+    
+    <span id="changing-text" class="highlight type-text"></span>
+    <br />
+    {siteData.description3}
+  </p>
+</section>
+
+<style>
+  /* --- 字体引入 (保持你之前的设置) --- */
+  @font-face {
+    font-family: 'PPEditorialNew';
+    src: url('/assets/fonts/PPEditorialNew-Italic.woff2') format('woff2');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  #hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 80px;
+  }
+
+  .hero-title {
+    font-size: 3rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .smiley {
+    display: inline-block; /* 允许变形(如果需要旋转) */
+    color: #ffffff;        /* 纯白色 */
+    font-family: 'Helvetica', sans-serif; /* 建议用无衬线体，表情更好看 */
+    font-weight: 400;      /* 字重正常 */
+    font-style: normal;    /* 不要斜体，防止表情歪倒 */
+    margin: 0 4px;         /* 左右加一点点空隙，不至于太挤 */
+    
+    /* 可选：如果你觉得表情位置偏上或偏下，可以用这个微调 */
+  }
+
+  .smiley:hover {
+    transform: translateY(-2px) rotate(90deg); /* 很多设计喜欢把 :) 旋转90度变成竖着的笑脸 */
+    transition: all 0.3s ease;
+    text-shadow: 0 4px 12px rgba(255, 255, 255, 0.5);
+  }
+
+  .name-highlight {
+    font-weight: 300;
+    color: var(--text-main);
+  }
+
+  .name-highlight:hover {
+    color: #3b82f6;
+    transform: scale(1.05) rotate(2deg);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    text-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+
+
+  .hero-description {
+    margin-top: 0%;
+    font-size: 3rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    line-height: 1.2;
+    max-width: 1500px;
+  }
+
+  /* --- 关键：动态文字容器样式 --- */
+  .type-text {
+    display: inline-flex; /* 让字母横向排列 */
+    color: var(--text-main);
+    font-family: 'PPEditorialNew', serif;
+    font-style: italic;
+    font-weight: 100;
+    border-bottom: 1px dashed rgba(0,0,0,0.2);
+    min-width: 200px; /* 防止文字切换时宽度跳动太大，可选 */
+    white-space: pre; /* 保持空格 */
+    position: relative;
+    vertical-align: bottom;
+  }
+
+  /* --- 核心动画逻辑 --- */
+  /* 全局样式中定义，因为 span 是 JS 生成的 */
+  :global(.char) {
+    display: inline-block;
+    opacity: 0; /* 初始状态隐藏 */
+    filter: blur(10px); /* 初始模糊 */
+    transform: translateY(15px); /* 初始位置偏下 */
+    will-change: opacity, filter, transform;
+    
+    /* 这里的变量 --char-index 由 JS 注入，实现从左到右的延迟 */
+    transition: 
+      opacity 0.8s cubic-bezier(0.2, 0.6, 0.2, 1),
+      filter 0.8s cubic-bezier(0.2, 0.6, 0.2, 1),
+      transform 0.8s cubic-bezier(0.2, 0.6, 0.2, 1);
+    
+    transition-delay: calc(var(--char-index) * 0.05s);
+  }
+
+  /* 入场状态：清晰、原位 */
+  :global(.char.in) {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+
+  /* 出场状态：原位变模糊、消失 */
+  :global(.char.out) {
+    opacity: 0;
+    filter: blur(10px); /* 再次变模糊 */
+    transform: translateY(-10px); /* 稍微往上飘一点点，更有呼吸感 */
+    transition-duration: 0.6s; /* 出场稍微快一点 */
+  }
+</style>
+
+<script define:vars={{ wordList }}>
+  // 获取容器
+  const container = document.getElementById('changing-text');
+  
+  if (container && wordList.length > 0) {
+    let currentIndex = 0;
+
+    // 辅助函数：将单词拆分成带有延迟索引的 span
+    const splitWordToSpans = (word) => {
+      return word.split('').map((char, index) => {
+        // 这里的 style="--char-index: ${index}" 是 CSS 能够依次播放动画的关键
+        return `<span class="char" style="--char-index: ${index}">${char}</span>`;
+      }).join('');
+    };
+
+    const animate = async () => {
+      const currentWord = wordList[currentIndex];
+      
+      // 1. 设置新词结构 (此时字母是隐藏的)
+      container.innerHTML = splitWordToSpans(currentWord);
+      
+      // 2. 强制重排 (让浏览器意识到 DOM 变了)
+      void container.offsetWidth;
+
+      // 3. 入场动画：给所有字母加上 .in 类
+      // 使用 requestAnimationFrame 确保下一帧渲染时才加类名，保证 transition 生效
+      requestAnimationFrame(() => {
+        const chars = container.querySelectorAll('.char');
+        chars.forEach(c => c.classList.add('in'));
+      });
+
+      // 4. 等待停留时间 (比如 2.5秒)
+      await new Promise(r => setTimeout(r, 2500));
+
+      // 5. 出场动画：给所有字母加上 .out 类 (去掉 .in)
+      const chars = container.querySelectorAll('.char');
+      chars.forEach(c => {
+        c.classList.remove('in');
+        c.classList.add('out');
+      });
+
+      // 6. 等待出场动画结束 (0.6s + 延迟冗余 = 约 1秒)
+      await new Promise(r => setTimeout(r, 1000));
+
+      // 7. 循环下标并开始下一次
+      currentIndex = (currentIndex + 1) % wordList.length;
+      animate();
+    };
+
+    // 启动动画
+    animate();
+  }
+</script>

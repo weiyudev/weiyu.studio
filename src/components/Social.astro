@@ -1,0 +1,33 @@
+---
+import { siteData } from '../data/content';
+---
+
+<div class="social-links">
+  {siteData.social.map(link => (
+    <a href={link.url} target="_blank" rel="noopener noreferrer" class="social-item">
+      {link.name} <span class="arrow">↗</span>
+    </a>
+  ))}
+</div>
+
+<style>
+  .social-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .social-item {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+
+  .social-item:hover {
+    color: var(--text-main);
+  }
+  
+  .arrow { font-size: 0.8rem; }
+</style>

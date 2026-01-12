@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+  --bg-color: #0a0a0a;
+  --text-main: #f0f0f0;
+  --text-muted: #888;
+  --border-color: #222;
+  --font-main: 'Inter', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth; /* 关键：让锚点跳转有平滑滚动效果 */
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-main);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { text-decoration: none; color: inherit; transition: opacity 0.2s; }
+a:hover { opacity: 0.7; }
+ul { list-style: none; padding: 0; }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 通用 Section 样式 */
+section {
+  padding: 6rem 0;
+  min-height: 50vh; /* 确保每个板块至少占满一屏 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 80px; /* 这里的数值要大于你 Navbar 的高度，防止内容被遮挡 */
+  /*border-bottom: 1px solid var(--border-color); /* 可选：每个板块间的分隔线 */
+}
+
+section:last-child { border-bottom: none; }
+
+h2.section-title {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}

@@ -1,0 +1,33 @@
+---
+import { experience } from '../../data/content';
+---
+<section id="experience">
+  <h2 class="section-title">Experience</h2>
+  <div class="exp-list">
+    {experience.map(item => (
+      <div class="exp-item">
+        <div class="left">
+          <span class="company">{item.company}</span>
+          <span class="year">{item.year}</span>
+        </div>
+        <div class="right">
+          <span class="role">{item.role}</span>
+          <p class="desc">{item.desc}</p>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<style>
+  .exp-item {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border-color);
+  }
+  .company { display: block; color: var(--text-main); font-weight: 500; }
+  .year { color: var(--text-muted); font-size: 0.85rem; margin-top: 0.5rem; display: block; }
+  .role { display: block; color: var(--text-main); margin-bottom: 0.5rem; }
+  .desc { color: var(--text-muted); font-size: 0.9rem; }
+</style>
