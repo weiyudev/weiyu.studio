@@ -1,0 +1,115 @@
+---
+// 接收外部传来的项目数据
+const { project } = Astro.props;
+---
+
+<article class="project-page container">
+    <header class="proj-header">
+      <div class="meta-tags">
+        <span class="pill">{project.category}</span>
+        <span class="pill">{project.year}</span>
+      </div>
+      <h1 class="title">{project.title}</h1>
+    </header>
+
+    <div class="content-section">
+      <p class="intro">{project.description}</p>
+      
+      <div class="divider"></div>
+
+      <div class="body-text">
+        {project.content ? project.content : "Project details coming soon..."}
+      </div>
+    </div>
+</article>
+
+
+<style>
+  /* 页面整体布局 
+     padding-top: 4rem; 是为了给顶部的 Navbar 留出一点呼吸空间，
+     但这取决于你的 Navbar 是否有 margin-bottom。
+     如果觉得离导航栏太远，可以把这个数值改小。
+  */
+  .project-page {
+    padding-top: 2rem; 
+    max-width: 800px; /* 限制详情页最大宽度，阅读体验更好 */
+  }
+
+  /* --- 头部样式 --- */
+  .proj-header {
+    margin-bottom: 4rem;
+    /* 左对齐，符合阅读习惯 */
+    text-align: left; 
+  }
+
+  .meta-tags {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pill {
+    font-size: 0.85rem;
+    padding: 0.3rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .title {
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--text-main); /* 恢复深色文字 */
+  }
+
+  /* --- 正文样式 --- */
+  .content-section {
+    margin-bottom: 6rem;
+  }
+
+  .intro {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+    margin-bottom: 3rem;
+  }
+
+  .body-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted); /* 正文使用稍微柔和的颜色 */
+  }
+
+  /* --- 底部 --- */
+  .footer-section {
+    margin-top: auto;
+  }
+
+  /* --- 响应式适配 --- */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 2.5rem;
+    }
+    
+    .intro {
+      font-size: 1.2rem;
+    }
+
+    /* 如果之前的“拉伸问题”是指文字顶到了屏幕边缘，
+       .container 默认的 padding (global.css) 会处理好左右边距。
+       这里不需要额外写 padding。
+    */
+  }
+</style>

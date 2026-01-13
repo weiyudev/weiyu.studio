@@ -1,0 +1,214 @@
+---
+const { project } = Astro.props;
+---
+
+<article class="project-page container">
+  
+  <header class="proj-header">
+    <div class="meta-tags">
+      <span class="pill">{project.category}</span>
+      <span class="pill">{project.year}</span>
+    </div>
+    <h1 class="title">{project.title}</h1>
+  </header>
+
+  <div class="content-section">
+    <p class="intro">{project.description}</p>
+    <div class="divider"></div>
+    <div class="body-text">
+      {project.content}
+    </div>
+  </div>
+
+  <div class="galleries-wrapper">
+    {project.galleries && project.galleries.map((gallery, index) => (
+      <div class="gallery-block">
+        
+        <div class="horizontal-scroll">
+          {gallery.images.map(img => (
+            <div class="image-card">
+              <img src={img} alt={`Gallery image`} loading="lazy" />
+            </div>
+          ))}
+        </div>
+
+        {gallery.caption && (
+          <p class="gallery-caption">
+            <span class="caption-index">Fig {index + 1}.</span> {gallery.caption}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+
+</article>
+
+<style>
+  /* === 复用 TextProject 的基础样式 (保持一致性) === */
+  .project-page {
+    padding-top: 2rem; 
+    max-width: 800px; /* 限制详情页最大宽度，阅读体验更好 */
+  }
+
+  /* --- 头部样式 --- */
+  .proj-header {
+    margin-bottom: 4rem;
+    /* 左对齐，符合阅读习惯 */
+    text-align: left; 
+  }
+
+  .meta-tags {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .pill {
+    font-size: 0.85rem;
+    padding: 0.3rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .title {
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.1;
+    margin: 0;
+    color: var(--text-main); /* 恢复深色文字 */
+  }
+
+  /* --- 正文样式 --- */
+  .content-section {
+    margin-bottom: 6rem;
+  }
+
+  .intro {
+    font-size: 1.4rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    margin-bottom: 3rem;
+    font-weight: 300;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--border-color);
+    margin-bottom: 3rem;
+  }
+
+  .body-text {
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-muted); /* 正文使用稍微柔和的颜色 */
+  }
+
+  /* --- 底部 --- */
+  .footer-section {
+    margin-top: auto;
+  }
+
+  /* --- 响应式适配 --- */
+  @media (max-width: 768px) {
+    .title {
+      font-size: 2.5rem;
+    }
+    
+    .intro {
+      font-size: 1.2rem;
+    }
+
+    /* 如果之前的“拉伸问题”是指文字顶到了屏幕边缘，
+       .container 默认的 padding (global.css) 会处理好左右边距。
+       这里不需要额外写 padding。
+    */
+  }
+
+  /* === ✨ 画廊样式 (VisualProject 独有) === */
+  
+  .galleries-wrapper {
+    /* 画廊区域可以比正文宽一点，更有张力 */
+    width: 100vw; 
+    margin-left: calc(50% - 50vw); /* 强制全屏宽度的黑科技 */
+    display: flex;
+    flex-direction: column;
+    gap: 6rem; /* 画廊之间的间距 */
+    padding-bottom: 6rem;
+  }
+
+  .gallery-block {
+    width: 100%;
+  }
+
+  /* 横向滚动容器 */
+  .horizontal-scroll {
+    display: flex;
+    gap: 1.5rem; /* 图片之间的间距 */
+    overflow-x: auto; /* 允许横向滚动 */
+    padding: 0 max(2rem, calc(50vw - 400px)); /* 关键：左边距对齐正文，右边距保持通透 */
+    scroll-snap-type: x mandatory; /* 滚动吸附效果 */
+    padding-bottom: 1rem; /* 给滚动条留点位置 */
+    
+    /* 隐藏滚动条 (Chrome/Safari/Opera) */
+    -ms-overflow-style: none;  /* IE/Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+  
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条 (Chrome) */
+  }
+
+  .image-card {
+    flex: 0 0 auto; /* 防止图片被压缩 */
+    height: 60vh; /* 图片固定高度，根据屏幕自适应 */
+    min-height: 400px;
+    scroll-snap-align: center; /* 滚动停止时，图片居中对齐 */
+  }
+
+  .image-card img {
+    height: 100%;
+    width: auto; /* 宽度自适应，保持比例 */
+    display: block;
+    /* border-radius: 4px; 可选：微圆角 */
+  }
+
+  /* 描述文字样式 */
+  .gallery-caption {
+    max-width: 800px; /* 对齐正文宽度 */
+    margin: 1rem auto 0 auto; /* 居中显示 */
+    padding: 0 2rem; /* 防止在手机上贴边 */
+    font-size: 0.9rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color); /* 描述上方加一条细线，更像图纸标注 */
+    padding-top: 0.8rem;
+  }
+
+  .caption-index {
+    color: var(--text-main);
+    font-weight: 500;
+    margin-right: 0.5rem;
+  }
+
+  /* === 响应式 === */
+  @media (max-width: 768px) {
+    .title { font-size: 2.5rem; }
+    
+    .horizontal-scroll {
+      padding: 0 1.5rem; /* 手机上左右间距小一点 */
+      gap: 1rem;
+    }
+    
+    .image-card {
+      height: 40vh; /* 手机上图片矮一点 */
+      min-height: 250px;
+    }
+
+    .gallery-caption {
+      font-size: 0.85rem;
+    }
+  }
+</style>
