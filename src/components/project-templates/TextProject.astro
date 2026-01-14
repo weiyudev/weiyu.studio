@@ -17,8 +17,9 @@ const { project } = Astro.props;
       
       <div class="divider"></div>
 
+      {/* 正文内容改为渲染 Markdown（从 [slug].astro 传入的 <Content /> 插槽） */}
       <div class="body-text">
-        {project.content ? project.content : "Project details coming soon..."}
+        <slot />
       </div>
     </div>
 </article>

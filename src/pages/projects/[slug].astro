@@ -1,34 +1,48 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Footer from '../../components/Footer.astro';
-import { projects } from '../../data/content';
-
-// 引入刚才写的两个模版
+import { getCollection } from 'astro:content';
 import TextProject from '../../components/project-templates/TextProject.astro';
 import VisualProject from '../../components/project-templates/VisualProject.astro';
-
+// 2. 生成静态路径
 export async function getStaticPaths() {
-  return projects.map(p => ({
-    params: { slug: p.id },
-    props: { project: p },
+  // 获取所有 md 文件
+  const projects = await getCollection('projects');
+  
+  return projects.map(entry => ({
+    // params.slug 对应文件名 (如 soft-1)
+    params: { slug: entry.slug },
+    // 将整个文件数据传递给页面
+    props: { entry },
   }));
 }
 
-const { project } = Astro.props;
+const { entry } = Astro.props;
+// 3. 渲染 Markdown 正文为 HTML
+const { Content } = await entry.render();
+// 4. 获取 Frontmatter 数据 (相当于以前的 project 对象)
+const projectData = entry.data;
 ---
 
-<Layout title={project.title}>
-  
+<Layout title={projectData.title}>
   {
-    project.layout === 'visual' 
-    ? <VisualProject project={project} /> 
-    : <TextProject project={project} />
+    projectData.projectType === 'visual' 
+    ? (
+      // 把数据传给模板，把正文 <Content/> 塞进插槽
+      <VisualProject project={projectData}>
+        <Content />
+      </VisualProject>
+    )
+    : (
+      <TextProject project={projectData}>
+        <Content />
+      </TextProject>
+    )
   }
-
+  
   <div class="container footer-wrapper">
     <Footer />
   </div>
-
 </Layout>
 
 <style>

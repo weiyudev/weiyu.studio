@@ -1,12 +1,17 @@
 ---
 // src/pages/projects/index.astro
 import Layout from '../../layouts/Layout.astro';
-import { projects } from '../../data/content';
+// 1. 引入 Content Collections 工具
+import { getCollection } from 'astro:content';
 
-// 将项目按类别分类
-const softwareProjects = projects.filter(p => p.category === 'Software');
-const gameProjects = projects.filter(p => p.category === 'Game');
-const archProjects = projects.filter(p => p.category === 'Architecture');
+// 2. 获取 src/content/projects 下的所有 Markdown 文件
+const allProjects = await getCollection('projects');
+
+// 3. 将项目按类别分类 (注意：数据现在位于 p.data 下)
+// 可选：如果需要按年份排序，可以在 filter 后加上 .sort((a, b) => b.data.year - a.data.year)
+const softwareProjects = allProjects.filter(p => p.data.category === 'Software');
+const gameProjects = allProjects.filter(p => p.data.category === 'Game');
+const archProjects = allProjects.filter(p => p.data.category === 'Architecture');
 
 const columns = [
   { title: 'Software', data: softwareProjects },
@@ -21,15 +26,23 @@ const columns = [
       <div class="column">
         <h2 class="col-title">{col.title}</h2>
         <div class="col-content">
-          {col.data.map((project) => (
-            <a href={`/projects/${project.id}`} class="project-card">
+          {col.data.map((projectEntry) => (
+            /* 4. 链接修改：使用 projectEntry.slug 
+               (Astro 会自动根据文件名生成 slug，例如 soft-1.md -> soft-1)
+            */
+            <a href={`/projects/${projectEntry.slug}`} class="project-card">
               <div class="image-wrapper">
-                <img src={project.image} alt={project.title} onerror="this.style.display='none'" />
+                {/* 5. 数据访问修改：使用 projectEntry.data.xxx */}
+                <img 
+                  src={projectEntry.data.image} 
+                  alt={projectEntry.data.title} 
+                  onerror="this.style.display='none'" 
+                />
                 <div class="fallback-box"></div>
               </div>
               <div class="project-info">
-                <h3>{project.title}</h3>
-                <p>{project.year}</p>
+                <h3>{projectEntry.data.title}</h3>
+                <p>{projectEntry.data.year}</p>
               </div>
             </a>
           ))}
@@ -40,6 +53,7 @@ const columns = [
 </Layout>
 
 <style>
+  /* 样式保持原样，没有任何变化 */
   .projects-grid {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr; /* 强制三栏 */

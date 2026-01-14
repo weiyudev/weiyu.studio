@@ -1,19 +1,27 @@
 ---
-import { projects } from '../../data/content';
+import { getCollection } from 'astro:content';
+
+// 从 Content Collections 读取所有项目（src/content/projects/*.md）
+const allProjects = await getCollection('projects');
+
+// 只取 frontmatter 中 featured === true 的项目
+// 再按 priority 从小到大排序（数字越小越靠前）
+const featuredProjects = allProjects
+  .filter((p) => p.data.featured)
+  .sort((a, b) => a.data.priority - b.data.priority);
 ---
 
 <section id="projects">
   <h2 class="section-title">Selected Projects</h2>
   
   <div class="projects-grid">
-    {projects.slice(0, 3).map(project => (
-      <a href={`/projects/${project.id}`} class="project-card">
-        {/* 1. 图片层：假设数据中有 image 字段，如果没有请替换为你的图片路径 */}
+    {featuredProjects.map((entry) => (
+      <a href={`/projects/${entry.slug}`} class="project-card">
+        {/* 1. 图片层：现在从 Markdown frontmatter 的 image 字段读取 */}
         <div class="image-wrapper">
            <img 
-            src={project.image || "/assets/images/placeholder.jpg"} 
-            
-            alt={project.title} 
+            src={entry.data.image || "/assets/images/placeholder.jpg"} 
+            alt={entry.data.title} 
             loading="lazy"
           />
         </div>
@@ -23,7 +31,7 @@ import { projects } from '../../data/content';
 
         {/* 3. 文字层：绝对定位在正中间 */}
         <h3 class="project-title-center">
-          {project.title}
+          {entry.data.title}
         </h3>
       </a>
     ))}

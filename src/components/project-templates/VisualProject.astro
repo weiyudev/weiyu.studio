@@ -1,4 +1,18 @@
 ---
+interface Props {
+  project: {
+    title: string;
+    category: string;
+    year: string;
+    description: string;
+    content?: string; // 兼容旧数据，如果是纯 MD 文件可能不需要这个
+    galleries?: {
+      caption?: string;
+      images: string[];
+    }[];
+  };
+}
+
 const { project } = Astro.props;
 ---
 
@@ -17,6 +31,10 @@ const { project } = Astro.props;
     <div class="divider"></div>
     <div class="body-text">
       {project.content}
+    </div>
+
+    <div class="body-text">
+      <slot /> 
     </div>
   </div>
 
