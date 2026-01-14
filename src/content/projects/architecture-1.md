@@ -1,8 +1,8 @@
 ---
-title: "Working Project"
+title: "Design"
 featured: true      # 是否出现在首页
 priority: 3         # 排序优先级：1 会排在 2 前面
-category: "Architecture"
+category: "Arch"
 image: "/assets/images/arch1.jpg"
 projectType: "visual"
 year: "2019-2022"
@@ -11,6 +11,7 @@ content: "Working as an architect taught me to handle complex, constraint-driven
 galleries:
   - caption: "Public Projects"
     images:
+      - "/assets/images/arch1_public/pic6.png"
       - "/assets/images/arch1_public/pic9.png"
       - "/assets/images/arch1_public/pic8.png"
       - "/assets/images/arch1_public/pic1.jpg"
@@ -18,7 +19,7 @@ galleries:
       - "/assets/images/arch1_public/pic3.png"
       - "/assets/images/arch1_public/pic4.png"
       - "/assets/images/arch1_public/pic5.png"
-      - "/assets/images/arch1_public/pic6.png"
+      
   - caption: "Residential Projects"
     images:
       - "/assets/images/arch2_living/pic1.jpg"

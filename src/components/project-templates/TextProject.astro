@@ -17,9 +17,9 @@ const { project } = Astro.props;
       
       <div class="divider"></div>
 
-      {/* 正文内容改为渲染 Markdown（从 [slug].astro 传入的 <Content /> 插槽） */}
+      
       <div class="body-text">
-        <slot />
+        <slot /> 
       </div>
     </div>
 </article>
@@ -90,7 +90,7 @@ const { project } = Astro.props;
   .body-text {
     font-size: 1.05rem;
     line-height: 1.8;
-    color: var(--text-muted); /* 正文使用稍微柔和的颜色 */
+    color: #DDDDDD; /* 正文使用稍微柔和的颜色 */
   }
 
   /* --- 底部 --- */
@@ -113,4 +113,22 @@ const { project } = Astro.props;
        这里不需要额外写 padding。
     */
   }
+
+  /* 默认 Markdown 图片样式 */
+  .body-text :global(img) {
+    max-width: 100%;   /* 防止图片溢出容器 */
+    height: auto;      /* 保持长宽比，防止变形 */
+    display: block;    /* 块级显示，方便居中 */
+    margin: 2rem auto; /* 上下边距 */
+    border-radius: 4px; /* 可选：给图片一点圆角 */
+  }
+
+  .body-text :global(img) {
+    width: 100%;       /* 关键：强制宽度占满容器，和文字一样宽 */
+    height: auto;      /* 保持图片比例，防止拉伸 */
+    display: block;    /* 块级显示 */
+    margin: 3rem 0;    /* 上下间距，左右设为 0 因为已经占满宽度了 */
+    border-radius: 4px; /* 可选：加一点圆角让边缘更柔和 */
+  }
+
 </style>

@@ -1,13 +1,20 @@
 ---
-title: "Fahrkarten bitte!"
+title: "Game"
 featured: true
 priority: 2
 category: "Game"
-layout: "text"
+projectType: "text"
 image: "/assets/images/game1.jpg"
-year: "2022"
+year: "2026"
 description: "A narrative-driven decision-making game exploring moral pressure and emotional accessibility."
 ---
+# Fahrkarten bitte!
+<img
+  src="/assets/images/game_pic/gamepic1.jpg"
+  alt="Game screenshot"
+  class="project-image"
+/>
+
 
 ## Game Concept
 
@@ -24,9 +31,28 @@ Gameplay is structured around repeated **station-to-station loops**:
 - At any point, the player must decide whether to allow the passenger to stay or eject them from the train.
 - All decisions contribute to a final summary that evaluates consistency, strictness, and alignment with company goals.
 
-The game emphasizes:
-- **Time management** under pressure  
-- **Meaningful player choice** with social consequences  
-- **Narrative ambiguity** rather than binary right-or-wrong outcomes  
-
 ## Emotional Accessibility
+
+A central design goal was to make emotionally stressful gameplay **adjustable**.  
+Players can modify:
+- Visual atmosphere (light vs. dark themes)
+- Background audio intensity
+- Difficulty and passenger density
+
+These parameters directly influence emotional load without changing the core mechanics, allowing the game to function both as entertainment and as a research tool.
+
+## Technical Implementation
+
+- **Engine:** Unity (C#)
+- **Architecture:** Model–View–Presenter (MVV)
+- **Version Control:** GitLab
+
+Gameplay sessions are logged automatically in structured XML files, enabling later analysis of player decisions and accessibility settings.
+
+## Team & Context
+
+This project was developed in a multidisciplinary team as part of a computer science course at Karlsruhe Institute of Technology (KIT), combining game design, software engineering, and human–computer interaction research.
+
+## Source Code
+
+[View the project on GitLab](https://gitlab.com/weiyudev/fahrkarten-bitte)

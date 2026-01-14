@@ -1,0 +1,19 @@
+<svg width="320" height="120" viewBox="0 0 320 120" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shadow layer -->
+  <g fill="none" stroke="#9CA3AF" stroke-width="10" stroke-linecap="butt" transform="translate(4,4)">
+    <path d="M20 20 L50 100 L80 40 L110 100 L140 20"/>
+    <line x1="170" y1="20" x2="230" y2="20"/>
+    <line x1="170" y1="60" x2="215" y2="60"/>
+    <line x1="170" y1="100" x2="230" y2="100"/>
+    <line x1="270" y1="20" x2="270" y2="100"/>
+  </g>
+
+  <!-- Main layer -->
+  <g fill="none" stroke="#000000" stroke-width="10" stroke-linecap="butt">
+    <path d="M20 20 L50 100 L80 40 L110 100 L140 20"/>
+    <line x1="170" y1="20" x2="230" y2="20"/>
+    <line x1="170" y1="60" x2="215" y2="60"/>
+    <line x1="170" y1="100" x2="230" y2="100"/>
+    <line x1="270" y1="20" x2="270" y2="100"/>
+  </g>
+</svg>
