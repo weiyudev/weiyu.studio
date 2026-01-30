@@ -9,12 +9,14 @@ year: "2026"
 description: "A narrative-driven decision-making game exploring moral pressure and emotional accessibility."
 ---
 # Fahrkarten bitte!
-<img
-  src="/assets/images/game_pic/gamepic1.jpg"
-  alt="Game screenshot"
-  class="project-image"
-/>
-
+<figure class="project-figure">
+  <img src="/assets/images/game_pic/Carriage_dark.png" alt="Game screenshot" class="project-image" style="width: 100%; display: block;" />
+  <figcaption>Game in dark theme</figcaption>
+</figure>
+<figure class="project-figure">
+  <img src="/assets/images/game_pic/Carriage_light.png" alt="Game screenshot" class="project-image" style="width: 100%; display: block;" />
+  <figcaption>Game in dark theme</figcaption>
+</figure>
 
 ## Game Concept
 
@@ -30,6 +32,14 @@ Gameplay is structured around repeated **station-to-station loops**:
 - Each inspection opens a dialog-based interaction with multiple-choicechoice-driven responses.
 - At any point, the player must decide whether to allow the passenger to stay or eject them from the train.
 - All decisions contribute to a final summary that evaluates consistency, strictness, and alignment with company goals.
+<figure class="project-figure">
+  <img src="/assets/images/game_pic/Dialog_dark.png" alt="Game screenshot" class="project-image" style="width: 100%; display: block;" />
+  <figcaption>Dialog-Interface in dark theme</figcaption>
+</figure>
+<figure class="project-figure">
+  <img src="/assets/images/game_pic/Dialog_light.png" alt="Game screenshot" class="project-image" style="width: 100%; display: block;" />
+  <figcaption>Dialog-Interface in dark theme</figcaption>
+</figure>
 
 ## Emotional Accessibility
 

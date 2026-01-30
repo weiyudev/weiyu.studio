@@ -16,7 +16,6 @@ const { project } = Astro.props;
       <p class="intro">{project.description}</p>
       
       <div class="divider"></div>
-
       
       <div class="body-text">
         <slot /> 
@@ -114,21 +113,30 @@ const { project } = Astro.props;
     */
   }
 
-  /* 默认 Markdown 图片样式 */
-  .body-text :global(img) {
-    max-width: 100%;   /* 防止图片溢出容器 */
-    height: auto;      /* 保持长宽比，防止变形 */
-    display: block;    /* 块级显示，方便居中 */
-    margin: 2rem auto; /* 上下边距 */
-    border-radius: 4px; /* 可选：给图片一点圆角 */
+  /* Default Markdown image/figure styling */
+  .body-text :global(.project-figure) {
+    margin: 3rem auto;
+    text-align: center;
+  }
+  
+  .body-text :global(.project-figure img) {
+    margin-bottom: 0.5rem; /* Space between image and caption */
+  }
+
+  .body-text :global(.project-figure figcaption) {
+    margin-top: 0;
   }
 
   .body-text :global(img) {
-    width: 100%;       /* 关键：强制宽度占满容器，和文字一样宽 */
-    height: auto;      /* 保持图片比例，防止拉伸 */
-    display: block;    /* 块级显示 */
-    margin: 3rem 0;    /* 上下间距，左右设为 0 因为已经占满宽度了 */
-    border-radius: 4px; /* 可选：加一点圆角让边缘更柔和 */
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 4px;
+  }
+  
+  .body-text :global(p > img) {
+    margin: 3rem auto;
   }
 
 </style>
